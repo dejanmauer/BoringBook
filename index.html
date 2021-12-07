@@ -1,18 +1,41 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+    />
+  </head>
+
   <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
   <!-- we import arjs version without NFT but with marker + location based support -->
   <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
-  <body style="margin : 0px; overflow: hidden;">
-    <a-scene embedded arjs>
-      <a-marker preset="hiro">
-        <a-entity
+  <script src="events.js"></script>
+
+  <body style="margin: 0px; overflow: hidden">
+    <a-scene embedded arjs='sourceType: webcam; debugUIEnabled: true;'>
+      <a-marker
+        markerhandler
+        emitevents="true"
+        cursor="rayOrigin: mouse"
+        id="animated-marker"
+        preset="hiro"
+      >
+        <!-- Basic plane. -->
+        <a-plane position="-1 -1 -1" color="red" height="100" width="100" rotation="-90 0 0"></a-plane>
+        <a-entity animation="property: rotation; to: 0 360 0; loop: true; dur: 10000"
+          id="animated-model"
+          scale="2 2 2"
           position="0 0 0"
-          scale="0.05 0.05 0.05"
-          gltf-model="/Resources/unicorn.glb"
-          scale="0.2 0.2 0.2"
-        ></a-entity>
+          gltf-model="url(Resources/unicorn.glb)"
+        >
+
+            <!-- <a-animation attribute="rotation" dur="4000" fill="forwards" to="0 0 360" repeat="indefinite"></a-animation> -->
+
+        </a-entity>
+       
       </a-marker>
       <a-entity camera></a-entity>
     </a-scene>
   </body>
+</html>

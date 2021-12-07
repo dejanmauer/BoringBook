@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+  <!-- we import arjs version without NFT but with marker + location based support -->
+  <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+  <script>
+    window.onload = function () {
+      document
+        .querySelector(".say-hi-button")
+        .addEventListener("click", function () {
+          // here you can change also a-scene or a-entity properties, like
+          // changing your 3D model source, size, position and so on
+          // or you can just open links, trigger actions...
+          alert("Hi there!");
+        });
+    };
+  </script>
+
+  <script>
+AFRAME.registerComponent('markerhandler', {
+
+init: function() {
+    const animatedMarker = document.querySelector("#animated-marker");
+    const aEntity = document.querySelector("#animated-model");
+
+    // every click, we make our model grow in size :)
+    animatedMarker.addEventListener('click', function(ev, target){
+        console.log("click");
+        const intersectedElement = ev && ev.detail && ev.detail.intersectedEl;
+        if (aEntity && intersectedElement === aEntity) {
+            const scale = aEntity.getAttribute('scale');
+            Object.keys(scale).forEach((key) => scale[key] = scale[key] + 1);
+            aEntity.setAttribute('scale', scale);
+        }
+    });
+}});
+  </script>
+
+  <style>
+    .buttons {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 5em;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+    }
+
+    .say-hi-button {
+      padding: 0.25em;
+      border-radius: 4px;
+      border: none;
+      background: white;
+      color: black;
+      width: 4em;
+      height: 2em;
+    }
+  </style>
+  <body style="margin: 0px; overflow: hidden">
+    <div class="buttons">
+      <button class="say-hi-button">SAY HI!</button>
+    </div>
+    <a-scene
+    vr-mode-ui="enabled: false;"
+    renderer="logarithmicDepthBuffer: true;"
+    
+    arjs="trackingMethod: best; sourceType: webcam; ">
+    
+      <a-marker markerhandler emitevents="true" cursor="rayOrigin: mouse" id="animated-marker" preset="hiro">
+        <a-entity 
+          id="animated-model"
+          position="0 -2 0"
+          scale="4 4 4"
+          rotation="-45 0 0"
+          gltf-model="url(Resources/unicorn.glb)"
+        ></a-entity>
+      </a-marker>
+      <a-entity camera></a-entity>
+    </a-scene>
+  </body>
+</html>

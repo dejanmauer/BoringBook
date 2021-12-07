@@ -7,35 +7,82 @@
     />
   </head>
 
-  <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
   <!-- we import arjs version without NFT but with marker + location based support -->
   <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
-  <script src="events.js"></script>
+<script src="events.js"></script>
+  
+  <script>
+    window.onload = function () {
+      document.querySelector(".say-hi-button")
+          .addEventListener("click", function () {
+            alert("Hi there!");
+        });
+
+        document.querySelector(".test")
+          .addEventListener("click", function () {
+            alert("Hi there!");
+        });
+
+    };
+  </script>
+  <style>
+    .buttons {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 5em;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+    }
+
+    .say-hi-button {
+      padding: 0.25em;
+      border-radius: 4px;
+      border: none;
+      background: white;
+      color: black;
+      width: 4em;
+      height: 2em;
+    }
+  </style>
+
 
   <body style="margin: 0px; overflow: hidden">
-    <a-scene embedded arjs='sourceType: webcam; debugUIEnabled: true;'>
-      <a-marker
-        markerhandler
-        emitevents="true"
-        cursor="rayOrigin: mouse"
-        id="animated-marker"
-        preset="hiro"
-      >
+
+    <div class="buttons">
+      <button class="say-hi-button">SAY HI!</button>
+    </div>
+    <a-scene
+    vr-mode-ui="enabled: false;"
+    renderer="logarithmicDepthBuffer: true;"
+    embedded
+    
+    arjs="trackingMethod: best; sourceType: webcam;debugUIEnabled: true;"
+  >
+  <a-marker preset="hiro">
+
         <!-- Basic plane. -->
-        <a-plane position="-1 -1 -1" color="red" height="100" width="100" rotation="-90 0 0"></a-plane>
-        <a-entity animation="property: rotation; to: 0 360 0; loop: true; dur: 10000"
+        <!-- <a-plane position="-1 -1 -1" color="red" height="100" width="100" rotation="-90 0 0"></a-plane> -->
+        <!-- <a-entity 
+          clickhandler="obj:unicorn"
           id="animated-model"
-          scale="2 2 2"
+          scale="4 4 4"
           position="0 0 0"
           gltf-model="url(Resources/unicorn.glb)"
-        >
+         >
+        </a-entity> -->
 
-            <!-- <a-animation attribute="rotation" dur="4000" fill="forwards" to="0 0 360" repeat="indefinite"></a-animation> -->
-
-        </a-entity>
+        <a-box clickhandler class="test" material="color:red" position="0 0  0" scale="2 2 2"></a-box>
        
       </a-marker>
       <a-entity camera></a-entity>
     </a-scene>
+
+  
+
   </body>
 </html>
